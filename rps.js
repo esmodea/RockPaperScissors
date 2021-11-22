@@ -47,7 +47,7 @@ function playRound(playerSelection, computerSelection) {
         if (check != tie) {
             result = (check == win) ? "You Win! " + playerSelection + " beats " + computerSelection + "." : "You Lose! " + computerSelection + " beats " + playerSelection;
         }
-        console.log(check);
+        console.log(result);
         return result;
     }
 }
