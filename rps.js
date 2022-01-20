@@ -16,17 +16,17 @@ function computerPlay() {
         result = "Paper";
     } else if (computerDecision == 3) {
         result = "Scissors";
-    }
+    };
     /*Return with rock paper or scissors*/
     return result;
-}
+};
 function playRound(playerSelection, computerSelection) {
     /*Take playerSelection and convert it to "Rock, Paper, or Scissors"*/
     let playerDecision = playerSelection.toLowerCase();
     console.log(playerDecision);
-    let tie = "Nobody Wins. It's a Tie!"
-    let loss = "You lose!"
-    let win = "You Win!"
+    let tie = "Nobody Wins. It's a Tie!";
+    let loss = "You lose!";
+    let win = "You Win!";
     let finalWinner = tie;
     /*Create Boolean to decide if player wins or computer wins using if statements*/
     computerSelection = computerPlay();
@@ -38,17 +38,17 @@ function playRound(playerSelection, computerSelection) {
         return checkWinner(finalWinner);
     } else {
         return checkWinner(finalWinner);
-    }
+    };
     /*Create string that uses Boolean to apply text that explains the victor and why*/
     function checkWinner(check) {
         let result = tie;
         if (check != tie) {
             result = (check == win) ? "You Win! " + playerSelection + " beats " + computerSelection + "." : "You Lose! " + computerSelection + " beats " + playerSelection;
-        }
+        };
         console.log(result);
         return result;
-    }
-}
+    };
+};
 /*Make a for loop that repeats only 5 times */
 function game(choice) {
     let playerWinCount = 0;
@@ -70,31 +70,32 @@ function game(choice) {
             computerWinCount++;
             console.log(playerWinCount);
             console.log(computerWinCount);
-        }
+        };
         
-    }
+    };
 /*Name a winner*/
     if (playerWinCount > computerWinCount) {
         let tryAgain = confirm("You win the set! Try again?")
         if (tryAgain == true) {
             game(choice);
-        } 
+        };
     } else if (playerWinCount < computerWinCount) {
         let tryAgain = confirm("You dun F**ked up buddy. Try again?")
         if (tryAgain == true) {
             game(choice);
-        }
+        };
     } else {
         let tryAgain = confirm("Good job, you're certainly not.. dumber than a random number generator. Try again?")
         if (tryAgain == true) {
             game(choice);
         } else return "Death does not define us, only what we leave behind.";
-    }
-}
+    };
+};
 
-const rpsButtons = document.querySelectorAll('.rps-buttons')
+const rpsButtons = document.querySelectorAll('.rps-buttons');
 rpsButtons.forEach((button) => {
     button.addEventListener('click', () => {
         playRound(String(button.id));
     });
 });
+const rpsResult = document.querySelector('.Result');
