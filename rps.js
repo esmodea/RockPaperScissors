@@ -1,4 +1,3 @@
-let computerSelection = computerPlay();
 function numberGenerator(n) {
     let number = Math.floor(Math.random() * (n + 1));
     for (; number === 0;) {
@@ -19,7 +18,6 @@ function computerPlay() {
         result = "Scissors";
     }
     /*Return with rock paper or scissors*/
-    console.log(result);
     return result;
 }
 function playRound(playerSelection, computerSelection) {
@@ -93,21 +91,10 @@ function game(choice) {
         } else return "Death does not define us, only what we leave behind.";
     }
 }
-function countUp(a, b, c, d) {
-    if (a != null) {
-        let resultA = ++a;
-        console.log(resultA)
-    }
-    if (b != null) {
-        let resultB = ++b;
-        console.log(resultB)
-    }
-    if (c != null) {
-        let resultC = ++c;
-        console.log(resultC)
-    }
-    if (d != null) {
-        let resultD = ++d;
-        console.log(resultD)
-    }
-}
+
+const rpsButtons = document.querySelectorAll('.rps-buttons')
+rpsButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        playRound(String(button.id));
+    });
+});
