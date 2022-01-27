@@ -5,36 +5,37 @@ function numberGenerator(n) {
     }
     return number;
 }
-function computerPlay() {
+let usrWinCount = 0;
+let compWinCount = 0;
+function compPlay() {
     /*Generate a number between 1 and 3 with a function*/
-    let computerDecision = numberGenerator(3);
+    let compChoice = numberGenerator(3);
     /*Use the generated number to select rock paper or scissors*/
     let result = "Something went seriously wrong";
-    if (computerDecision == 1) {
+    if (compChoice == 1) {
         result = "Rock";
-    } else if (computerDecision == 2) {
+    } else if (compChoice == 2) {
         result = "Paper";
-    } else if (computerDecision == 3) {
+    } else if (compChoice == 3) {
         result = "Scissors";
     };
     /*Return with rock paper or scissors*/
     return result;
 };
-function playRound(playerSelection, computerSelection) {
-    /*Take playerSelection and convert it to "Rock, Paper, or Scissors"*/
-    let playerDecision = playerSelection.toLowerCase();
-    console.log(playerDecision);
-    let tie = "Nobody Wins. It's a Tie!";
-    let loss = "You lose!";
-    let win = "You Win!";
+function playRound(usrPick, compPick) {
+    const tie = "Nobody Wins. It's a Tie!";
+    const loss = "You lose!";
+    const win = "You Win!";
     let finalWinner = tie;
-    /*Create Boolean to decide if player wins or computer wins using if statements*/
-    computerSelection = computerPlay();
-    if (playerDecision == "paper" && computerSelection == "Scissors" || playerDecision == "rock" && computerSelection == "Paper" || playerDecision == "scissors" && computerSelection == "Rock") {
+    /*Create Boolean to decide if usr wins or comp wins using if statements*/
+    compPick = compPlay();
+    if (usrPick == "paper" && compPick == "Scissors" || usrPick == "rock" && compPick == "Paper" || usrPick == "scissors" && compPick == "Rock") {
         finalWinner = loss;
+        ++compWinCount;
         return checkWinner(finalWinner);
-    } else if (playerDecision == "paper" && computerSelection == "Rock" || playerDecision == "rock" && computerSelection == "Scissors" || playerDecision == "scissors" && computerSelection == "Paper") {
+    } else if (usrPick == "paper" && compPick == "Rock" || usrPick == "rock" && compPick == "Scissors" || usrPick == "scissors" && compPick == "Paper") {
         finalWinner = win;
+        ++usrWinCount;
         return checkWinner(finalWinner);
     } else {
         return checkWinner(finalWinner);
@@ -42,50 +43,57 @@ function playRound(playerSelection, computerSelection) {
     /*Create string that uses Boolean to apply text that explains the victor and why*/
     function checkWinner(check) {
         let result = tie;
-        if (check != tie) {
-            result = (check == win) ? "You Win! " + playerSelection + " beats " + computerSelection + "." : "You Lose! " + computerSelection + " beats " + playerSelection;
+        if (check !== tie) {
+            result = (check == win) ? "You Win! " + usrPick + " beats " + compPick + "." : "You Lose! " + compPick + " beats " + usrPick;
+        } else if (result == tie) {
+            ++usrWinCount;
+            ++compWinCount;
         };
-        console.log(result);
+        const displayResult = document.createElement('div');
+        displayResult.classList.add('gameResult');
+        displayResult.textContent = String(result);
+        rpsResult.appendChild(displayResult);
+        const usrScore = document.querySelector('.score > .user');
+        usrScore.textContent = usrWinCount;
+        const compScore = document.querySelector('.score > .computer');
+        compScore.textContent = compWinCount;
         return result;
     };
 };
 /*Make a for loop that repeats only 5 times */
 function game(choice) {
-    let playerWinCount = 0;
-    let computerWinCount = 0;
-    for (let i = 1; i < 5 && playerWinCount < 3 && computerWinCount < 3; i++) {
-        let choice = prompt("Rock, Paper, Or Scissors?");
+    for (let i = 1; i < 5 && usrWinCount < 3 && compWinCount < 3; i++) {
         let currentGame = playRound(choice);
         if (currentGame == null) currentGame = prompt("try again to answer?")
         if (currentGame.substr(0, 7) == "Nobody ") {
-            playerWinCount++;
-            computerWinCount++;
-            console.log(playerWinCount);
-            console.log(computerWinCount);
+            usrWinCount++;
+            compWinCount++;
+            console.log(usrWinCount);
+            console.log(compWinCount);
         } else if (currentGame.substr(0, 7) == "You Win") {
-            playerWinCount++;
-            console.log(playerWinCount);
-            console.log(computerWinCount);
+            usrWinCount++;
+            console.log(usrWinCount);
+            console.log(compWinCount);
         } else if (currentGame.substr(0, 8) == "You Lose") {
-            computerWinCount++;
-            console.log(playerWinCount);
-            console.log(computerWinCount);
+            compWinCount++;
+            console.log(usrWinCount);
+            console.log(compWinCount);
         };
         
     };
 /*Name a winner*/
-    if (playerWinCount > computerWinCount) {
-        let tryAgain = confirm("You win the set! Try again?")
+    if (usrWinCount > compWinCount) {
+        let tryAgain = false;
         if (tryAgain == true) {
             game(choice);
         };
-    } else if (playerWinCount < computerWinCount) {
-        let tryAgain = confirm("You dun F**ked up buddy. Try again?")
+    } else if (usrWinCount < compWinCount) {
+        let tryAgain = false;
         if (tryAgain == true) {
             game(choice);
         };
     } else {
-        let tryAgain = confirm("Good job, you're certainly not.. dumber than a random number generator. Try again?")
+        let tryAgain = false;
         if (tryAgain == true) {
             game(choice);
         } else return "Death does not define us, only what we leave behind.";
@@ -98,4 +106,22 @@ rpsButtons.forEach((button) => {
         playRound(String(button.id));
     });
 });
-const rpsResult = document.querySelector('.Result');
+
+const rpsResult = document.querySelector('.displayResult');
+const scoreboard = function(choice){
+    game(choice);
+};
+
+const resetBtn = document.querySelector('.reset');
+resetBtn.addEventListener('click', () => {
+    usrWinCount = 0;
+    compWinCount = 0;
+    const usrScore = document.querySelector('.score > .user');
+    usrScore.textContent = usrWinCount;
+    const compScore = document.querySelector('.score > .computer');
+    compScore.textContent = compWinCount;
+    const removeResult = document.querySelectorAll('.gameResult');
+    removeResult.forEach(gameResult => {
+        gameResult.remove();
+    });
+})
